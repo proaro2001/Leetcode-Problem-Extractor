@@ -17,7 +17,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # helps to avoid adding to PATH
 from webdriver_manager.chrome import ChromeDriverManager
-from util import extract_leetcode_info, print_leetcode_info
+
+from utils.leetcode_extractor import extract_leetcode_info
 
 
 def extract_from_leetcode_page(pageNum):

@@ -1,6 +1,6 @@
-from leetcode import extract_from_leetcode_page
-from util import print_leetcode_info
-from db import insert_problem_list_to_db
+from scraping.leetcode import extract_from_leetcode_page
+from utils.leetcode_extractor import print_leetcode_info
+from db.db import insert_problem_list_to_db
 import time
 
 
