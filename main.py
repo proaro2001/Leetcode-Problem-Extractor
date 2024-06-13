@@ -5,9 +5,8 @@ import time
 
 
 def main():
-    # print("Extracting data from LeetCode page 1...")
-    # page1 = extract_from_leetcode_page(1)
-    for i in range(28, 64):
+    for i in range(1, 65):
+        print("=====================================")
         print(f"Extracting data from LeetCode page {i}...")
         page1 = extract_from_leetcode_page(i)
         print("Inserting data into the database")

@@ -31,11 +31,12 @@ def extract_from_leetcode_page(pageNum):
         None
     """
     # some necessary variables
-    # options = Options()
-    # options.headless = True # headless means without a UI
+    options = Options()
+    # options.headless = True  # headless means without a UI
+    # options.add_argument("--headless")  # Run Chrome in headless mode
     service = Service(ChromeDriverManager().install())
-    # driver = webdriver.Chrome(service=service, options=options)
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(service=service, options=options)
+    # driver = webdriver.Chrome(service=service)
 
     SETTINGS_BUTTON_XPATH = '//*[@id="headlessui-popover-button-:r7:"]'
     SHOW_TAG_TOGGLE_XPATH = "/html/body/div[1]/div[1]/div[4]/div[2]/div[1]/div[4]/div[1]/div/div[5]/div[2]/div/div[1]"
@@ -43,7 +44,7 @@ def extract_from_leetcode_page(pageNum):
         '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]'
     )
     ROWS_XPATH = '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]//div[@role="row"]'
-    # try:
+
     # Link to the website we are searching
     LINK = f"https://leetcode.com/problemset/?page={pageNum}"
 
@@ -80,7 +81,6 @@ def extract_from_leetcode_page(pageNum):
     show_tag_toggle.click()
 
     print("Show tag button clicked")
-    time.sleep(2)
 
     # find the div tag by role called rowgroup
     WebDriverWait(driver, 10).until(
@@ -102,17 +102,9 @@ def extract_from_leetcode_page(pageNum):
     )
     assert rows is not None, "Error in Leetcode: Rows not found"
 
+    time.sleep(2)
+
     output = [extract_leetcode_info(row.text) for row in rows]
     assert output is not None, "Error in Leetcode: No data found"
     driver.quit()
     return output
-
-    # except Exception as e:
-    #     # handle the exception
-    #     print(f"An error occurred in Leetcode: {str(e)}")
-    #     return None
-    # finally:
-    #     # code to be executed regardless of whether an exception occurred or not
-
-
-# driver.quit()
