@@ -10,10 +10,13 @@ This tool is built to help you extract the list of Leetcode problems and visuali
 This project is only created for visualizing my academic project and practicing my web scraping techniques.
 Please don't use it for any other purpose.
 
-## Updates
+## Work Logs
 
 - 2024/06/11 This project is initialized. Some messy documentation of my thoughts is written down.
-- 2024/06/12 Implemented the web scraping function using Selenium that successfully extracted Leetcode information
+- 2024/06/12 
+    - Implemented the web scraping function using Selenium that successfully extracted Leetcode information.
+    - Connected extracted Data with MongoDB.
+    - Program generally crashed every 4th page in search attemps. Successfully searched 18 pages by adding timer.
 
 ## Tech Stack used in this project
 
