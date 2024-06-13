@@ -72,9 +72,3 @@ def print_leetcode_info(infos):
         print("Acceptance Rate: " + info["acceptance_rate"])
         print("Difficulty: " + info["difficulty"])
         print("---------------------------")
-
-
-# # Test the functions
-# input = "50. Pow(x, n)\nMath\nRecursion\n35.0%\nMedium"
-# info = extract_leetcode_info(input)
-# print_leetcode_info(info)

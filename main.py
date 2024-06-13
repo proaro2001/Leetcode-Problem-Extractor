@@ -5,7 +5,9 @@ import time
 
 
 def main():
-    for i in range(1, 65):
+    # TODO: Figure out what the range should be
+    last_page = 64
+    for i in range(1, last_page + 1):
         print("=====================================")
         print(f"Extracting data from LeetCode page {i}...")
         page1 = extract_from_leetcode_page(i)

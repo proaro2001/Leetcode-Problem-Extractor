@@ -22,17 +22,16 @@ from util import extract_leetcode_info, print_leetcode_info
 
 def extract_from_leetcode_page(pageNum):
     """
-    Extracts and prints out the LeetCode information from a specific page.
+    Extracts Leetcode problems information from a specific page number.
 
     Args:
         pageNum (int): The page number to extract information from.
 
     Returns:
-        None
+        list: A list of dictionaries containing the extracted information.
     """
     # some necessary variables
     options = Options()
-    # options.headless = True  # headless means without a UI
     # options.add_argument("--headless")  # Run Chrome in headless mode
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
@@ -80,6 +79,7 @@ def extract_from_leetcode_page(pageNum):
     ), "Error in Leetcode: Show tag toggle button not found"
     show_tag_toggle.click()
 
+    # Indicator that the show tag button was clicked, can be removed for performance purposes
     print("Show tag button clicked")
 
     # find the div tag by role called rowgroup
@@ -96,15 +96,21 @@ def extract_from_leetcode_page(pageNum):
         ROW_GROUP_XPATH,
     )
     assert row_group is not None, "Error in Leetcode: Row group not found"
+
+    # find all the rows in the row group
     rows = row_group.find_elements(
         By.XPATH,
         ROWS_XPATH,
     )
     assert rows is not None, "Error in Leetcode: Rows not found"
 
+    # wait for 2 seconds to allow the page to load and prevent crashing the program and browser
     time.sleep(2)
 
+    # output data List object
     output = [extract_leetcode_info(row.text) for row in rows]
     assert output is not None, "Error in Leetcode: No data found"
+
+    # close the browser
     driver.quit()
     return output
