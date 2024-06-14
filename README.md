@@ -22,6 +22,8 @@ Please don't use it for any other purpose.
     - Connected extracted Data with [MongoDB](https://www.mongodb.com).
     - Program generally crashed every 4th page in search attemps. Successfully searched 18 pages by adding timer.
     - Successfully solved the crashing problem and now the program can extracted 3183 [Leetcode](https://leetcode.com/) problem information stably.
+- 2024/06/14
+    - Fixed a bug when running on headless mode on server
 
 ## Tech Stack used in this project
 

@@ -20,6 +20,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from utils.leetcode_extractor import extract_leetcode_info
 
+from bs4 import BeautifulSoup
+
+from fake_useragent import UserAgent
+
 
 def extract_from_leetcode_page(pageNum):
     """
@@ -33,11 +37,12 @@ def extract_from_leetcode_page(pageNum):
     """
     # Set Chrome options
     options = Options()
+    ua = UserAgent()
+    userAgent = ua.random
+    options.add_argument(f"user-agent={userAgent}")
     options.add_argument("--headless")  # Run Chrome in headless mode
     options.add_argument("--no-sandbox")  # Bypass OS security model
-    options.add_argument(
-        "--disable-dev-shm-usage"
-    )  # Overcome limited resource problems
+    options.add_argument("--disable-dev-shm-usage")
 
     # Set up Chrome driver
     service = Service(ChromeDriverManager().install())
@@ -58,6 +63,11 @@ def extract_from_leetcode_page(pageNum):
 
     # implicitly wait for 10 seconds
     driver.implicitly_wait(10)
+
+    # print("=====================================")
+    # soup = BeautifulSoup(driver.page_source, "html.parser")
+    # print(soup.prettify())
+    # print("=====================================")
 
     # find and click on the settings button
     WebDriverWait(driver, 10).until(
