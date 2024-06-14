@@ -1,5 +1,6 @@
 import pymongo
 from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
 
 
 def getConnection() -> pymongo.collection.Collection:
@@ -9,14 +10,20 @@ def getConnection() -> pymongo.collection.Collection:
     Returns:
         pymongo.collection.Collection: The 'problem list' collection object.
     """
-    cluster = MongoClient(
-        "mongodb+srv://Admin:WMggmanEJgUxzBgZ@leetcodeextractorcluste.ujs631j.mongodb.net/?retryWrites=true&w=majority&appName=LeetcodeExtractorCluster"
-    )
 
-    db = cluster["LeetcodeExtractor"]
+    try:
+        cluster = MongoClient(
+            "mongodb+srv://Admin:WMggmanEJgUxzBgZ@leetcodeextractorcluste.ujs631j.mongodb.net/?retryWrites=true&w=majority&appName=LeetcodeExtractorCluster"
+        )
 
-    collection = db["problem list"]
-    return collection
+        db = cluster["LeetcodeExtractor"]
+
+        collection = db["problem list"]
+        return collection
+    except ServerSelectionTimeoutError as e:
+        print("Error: Could not connect to the MongoDB cluster")
+        print(e)
+        return None
 
 
 def insert_problem_list_to_db(problem_list):
