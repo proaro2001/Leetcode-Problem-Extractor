@@ -31,12 +31,17 @@ def extract_from_leetcode_page(pageNum):
     Returns:
         list: A list of dictionaries containing the extracted information.
     """
-    # some necessary variables
+    # Set Chrome options
     options = Options()
-    # options.add_argument("--headless")  # Run Chrome in headless mode
+    options.add_argument("--headless")  # Run Chrome in headless mode
+    options.add_argument("--no-sandbox")  # Bypass OS security model
+    options.add_argument(
+        "--disable-dev-shm-usage"
+    )  # Overcome limited resource problems
+
+    # Set up Chrome driver
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
-    # driver = webdriver.Chrome(service=service)
 
     SETTINGS_BUTTON_XPATH = '//*[@id="headlessui-popover-button-:r7:"]'
     SHOW_TAG_TOGGLE_XPATH = "/html/body/div[1]/div[1]/div[4]/div[2]/div[1]/div[4]/div[1]/div/div[5]/div[2]/div/div[1]"
