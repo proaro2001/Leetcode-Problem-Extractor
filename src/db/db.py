@@ -1,27 +1,31 @@
 import pymongo
-from pymongo import MongoClient
+from pymongo.mongo_client import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 
 
 def getConnection() -> pymongo.collection.Collection:
     """
-    Establishes a connection to the MongoDB cluster and returns the 'problem list' collection.
+    Establishes a connection to the MongoDB client and returns the 'problem list' collection.
 
     Returns:
         pymongo.collection.Collection: The 'problem list' collection object.
     """
-
+    uri = "mongodb+srv://Admin:WMggmanEJgUxzBgZ@leetcodeextractorcluste.ujs631j.mongodb.net/?retryWrites=true&w=majority&appName=LeetcodeExtractorCluster"
+    client = MongoClient(uri)
+    # Send a ping to confirm a successful connection
     try:
-        cluster = MongoClient(
-            "mongodb+srv://Admin:WMggmanEJgUxzBgZ@leetcodeextractorcluste.ujs631j.mongodb.net/?retryWrites=true&w=majority&appName=LeetcodeExtractorCluster"
-        )
+        client.admin.command("ping")
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+    except Exception as e:
+        print(e)
 
-        db = cluster["LeetcodeExtractor"]
-
+    # Connect to the 'LeetcodeExtractor' database and the 'problem list' collection
+    try:
+        db = client["LeetcodeExtractor"]
         collection = db["problem list"]
         return collection
     except ServerSelectionTimeoutError as e:
-        print("Error: Could not connect to the MongoDB cluster")
+        print("Error: Could not connect to the MongoDB client")
         print(e)
         return None
 
