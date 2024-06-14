@@ -123,3 +123,12 @@ def extract_from_leetcode_page(pageNum):
     # close the browser
     driver.quit()
     return output
+
+
+# TODO: Create a getDriver to return the driver object
+# The driver object should be quit by the user once user is done with it
+
+# TODO: Create a function to extract the targeted information from the leetcode page
+# the rows to be specific
+
+# TODO: Create a function to extract the output data from the rows extracted by the previous function
