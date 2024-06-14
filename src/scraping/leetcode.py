@@ -20,8 +20,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from utils.leetcode_extractor import extract_leetcode_info
 
-from bs4 import BeautifulSoup
-
 from fake_useragent import UserAgent
 
 
@@ -63,11 +61,6 @@ def extract_from_leetcode_page(pageNum):
 
     # implicitly wait for 10 seconds
     driver.implicitly_wait(10)
-
-    # print("=====================================")
-    # soup = BeautifulSoup(driver.page_source, "html.parser")
-    # print(soup.prettify())
-    # print("=====================================")
 
     # find and click on the settings button
     WebDriverWait(driver, 10).until(
