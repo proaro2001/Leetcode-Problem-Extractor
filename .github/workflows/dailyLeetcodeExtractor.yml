@@ -6,32 +6,26 @@ on:
   push:
     branches:
       - main  # Triggers the workflow on push to the main branch
+      - GitHub-Pages-Branch  # Triggers the workflow on push to the GitHub-Pages-Branch branch
 
 jobs:
   run-extractor:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout repository # Checks-out the repository under $GITHUB_WORKSPACE, so your job can access it
+        uses: actions/checkout@v2 
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11.2'
 
-      - name: Install Chrome dependencies
+        # Runs a command to upgrade pip and install the dependencies listed in requirements.txt.
+      - name: Install dependencies 
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip
-          wget -q -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
-          sudo apt-get install -y xvfb
-
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip 
           pip install -r requirements.txt
 
       - name: Run LeetCode Extractor
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" python3 src/main.py
+        run: python3 src/main.py
