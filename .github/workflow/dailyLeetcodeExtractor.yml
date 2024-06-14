@@ -1,0 +1,33 @@
+name: Daily LeetCode Extractor
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs at 00:00 UTC every day
+  push:
+    branches:
+      - main  # Triggers the workflow on push to the main branch
+      - GitHub-Pages-Branch  # Triggers the workflow on push to the GitHub-Pages-Branch branch
+
+jobs:
+  run-extractor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository # Checks-out the repository under $GITHUB_WORKSPACE, so your job can access it
+        uses: actions/checkout@v2 
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11.2'
+
+        # Runs a command to upgrade pip and install the dependencies listed in requirements.txt.
+      - name: Install dependencies 
+        run: |
+          python3 -m pip install --upgrade pip 
+          pip install -r requirements.txt
+
+      - name: Run LeetCode Extractor
+        run: |
+        cd src
+        python3 main.py
