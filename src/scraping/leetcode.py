@@ -18,9 +18,6 @@ from selenium.webdriver.support import expected_conditions as EC
 # helps to avoid adding to PATH
 from webdriver_manager.chrome import ChromeDriverManager
 
-# package that helps bypass the bot detection on websites
-import undetected_chromedriver as uc
-
 from utils.leetcode_extractor import extract_leetcode_info
 from fake_useragent import UserAgent
 
@@ -40,7 +37,7 @@ def extract_from_leetcode_page(pageNum):
     LINK = f"https://leetcode.com/problemset/?page={pageNum}"
 
     # driver that gets the page
-    driver = get_uc_driver(LINK)
+    driver = get_driver(LINK, headless=True)
 
     # Extract the rows from the page
     rows = extractRows(driver)
@@ -54,40 +51,25 @@ def extract_from_leetcode_page(pageNum):
     return output
 
 
-def get_uc_driver(LINK):
+def get_driver(LINK, headless=True):
     """
-    Initializes and returns an undetected Chrome WebDriver with custom options.
+    Initializes and returns a Chrome WebDriver instance with the specified options.
+
+    Parameters:
+        LINK (str): The URL to navigate to after initializing the driver.
+        headless (bool): Whether to run Chrome in headless mode. Defaults to True.
 
     Returns:
-        WebDriver: A configured instance of undetected Chrome WebDriver.
+        WebDriver: The initialized Chrome WebDriver instance.
     """
-    # Set Chrome options
-    options = uc.ChromeOptions()
-    ua = UserAgent()
-    userAgent = ua.random
-    options.add_argument(f"user-agent={userAgent}")
-    options.add_argument("--headless")  # Run Chrome in headless mode
-    options.add_argument("--no-sandbox")  # Bypass OS security model
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument(
-        "--disable-blink-features=AutomationControlled"
-    )  # Avoid detection
-
-    # Initialize the undetected Chrome WebDriver with patcher
-    driver = uc.Chrome(options=options, use_subprocess=True, version_main=125)
-    driver.get(LINK)
-
-    return driver
-
-
-def get_driver(LINK):
     options = Options()
     ua = UserAgent()
     userAgent = ua.random
-    options.add_argument(f"user-agent={userAgent}")
-    options.add_argument("--headless")  # Run Chrome in headless mode
+    if headless:
+        options.add_argument("--headless")  # Run Chrome in headless mode
     options.add_argument("--no-sandbox")  # Bypass OS security model
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument(f"user-agent={userAgent}")
 
     # Set up Chrome driver
     service = Service(ChromeDriverManager().install())
@@ -98,6 +80,15 @@ def get_driver(LINK):
 
 
 def extractRows(driver):
+    """
+    Extracts rows from a web page using the provided Selenium WebDriver.
+
+    Args:
+        driver: The Selenium WebDriver instance.
+
+    Returns:
+        A list of WebElement objects representing the extracted rows.
+    """
     SETTINGS_BUTTON_XPATH = '//*[@id="headlessui-popover-button-:r7:"]'
     SHOW_TAG_TOGGLE_XPATH = "/html/body/div[1]/div[1]/div[4]/div[2]/div[1]/div[4]/div[1]/div/div[5]/div[2]/div/div[1]"
     ROW_GROUP_XPATH = (
