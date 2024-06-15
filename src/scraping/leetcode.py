@@ -40,9 +40,9 @@ def extract_from_leetcode_page(pageNum):
     ua = UserAgent()
     userAgent = ua.random
     options.add_argument(f"user-agent={userAgent}")
-    # options.add_argument("--headless")  # Run Chrome in headless mode
-    # options.add_argument("--no-sandbox")  # Bypass OS security model
-    # options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--headless")  # Run Chrome in headless mode
+    options.add_argument("--no-sandbox")  # Bypass OS security model
+    options.add_argument("--disable-dev-shm-usage")
 
     # Set up Chrome driver
     service = Service(ChromeDriverManager().install())
