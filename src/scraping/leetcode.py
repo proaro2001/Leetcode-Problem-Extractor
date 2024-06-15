@@ -54,7 +54,13 @@ def extract_from_leetcode_page(pageNum):
     return output
 
 
-def get_uc_driver(LINK):
+def get_uc_driver():
+    """
+    Initializes and returns an undetected Chrome WebDriver with custom options.
+
+    Returns:
+        WebDriver: A configured instance of undetected Chrome WebDriver.
+    """
     # Set Chrome options
     options = uc.ChromeOptions()
     ua = UserAgent()
@@ -67,8 +73,8 @@ def get_uc_driver(LINK):
         "--disable-blink-features=AutomationControlled"
     )  # Avoid detection
 
-    # Initialize the undetected Chrome WebDriver
-    driver = uc.Chrome(options=options)
+    # Initialize the undetected Chrome WebDriver with patcher
+    driver = uc.Chrome(options=options, use_subprocess=True)
 
     return driver
 
