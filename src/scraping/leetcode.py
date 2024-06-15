@@ -74,7 +74,7 @@ def get_uc_driver(LINK):
     )  # Avoid detection
 
     # Initialize the undetected Chrome WebDriver with patcher
-    driver = uc.Chrome(options=options, use_subprocess=True)
+    driver = uc.Chrome(options=options, use_subprocess=True, version_main=125)
     driver.get(LINK)
 
     return driver
