@@ -54,7 +54,7 @@ def extract_from_leetcode_page(pageNum):
     return output
 
 
-def get_uc_driver():
+def get_uc_driver(LINK):
     """
     Initializes and returns an undetected Chrome WebDriver with custom options.
 
@@ -75,6 +75,7 @@ def get_uc_driver():
 
     # Initialize the undetected Chrome WebDriver with patcher
     driver = uc.Chrome(options=options, use_subprocess=True)
+    driver.get(LINK)
 
     return driver
 
