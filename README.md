@@ -23,7 +23,11 @@ Please don't use it for any other purpose.
     - Program generally crashed every 4th page in search attemps. Successfully searched 18 pages by adding timer.
     - Successfully solved the crashing problem and now the program can extracted 3183 [Leetcode](https://leetcode.com/) problem information stably.
 - 2024/06/14
-    - Fixed a bug when running on headless mode on server
+    - Fixed a crashing bug when running on headless mode on server.
+    - Created Logs to monitor the performance change throughout my project.
+- 2024/06/15
+    - Optimized database insertion process by using **batch inserts** with InsertOne and bulk_write, and by **establishing a single database connection**, significantly improving efficiency and performance for handling large datasets.
+    - Resolved the **Captcha** issue encountered in the recent test by implementing fake human interaction techniques.
 
 ## Tech Stack used in this project
 

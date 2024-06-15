@@ -1,6 +1,7 @@
 import pymongo
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
+from pymongo import InsertOne
 
 
 def getCollection() -> pymongo.collection.Collection:
@@ -31,7 +32,7 @@ def getCollection() -> pymongo.collection.Collection:
         return None
 
 
-def insert_problem_list_to_db(problem_list):
+def insert_problem_list_to_db(problem_list, collection):
     """
     Inserts or updates a list of problems in the MongoDB collection.
     User should call getConnection() before calling this function.
@@ -48,10 +49,9 @@ def insert_problem_list_to_db(problem_list):
         raise ValueError("problem_list is empty or None")
     insertCount = 0
     updateCount = 0
-    collection = getCollection()
     for problem in problem_list:
         if collection.find_one({"_id": problem["_id"]}) is None:
-            collection.insert_one(problem)
+            collection.InsertOne(problem)
             insertCount += 1
         else:
             # update the problem if it already exists
