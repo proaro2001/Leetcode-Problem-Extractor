@@ -27,7 +27,7 @@ Please don't use it for any other purpose.
     - Created Logs to monitor the performance change throughout my project.
 - 2024/06/15
     - Optimized database insertion process by using **batch inserts** with InsertOne and bulk_write, and by **establishing a single database connection**, significantly improving efficiency and performance for handling large datasets.
-    - Resolved the **Captcha** issue encountered in the recent test by implementing fake human interaction techniques.
+    - Encountered the **CAPTCHA** issue and attempted to solve it with fake human Behavior but failed.
 
 ## Tech Stack used in this project
 

@@ -16,13 +16,11 @@ def getCollection() -> pymongo.collection.Collection:
     client = MongoClient(uri)
     # Send a ping to confirm a successful connection
     try:
+        # Try to connect to the MongoDB client
         client.admin.command("ping")
         print("Pinged your deployment. You successfully connected to MongoDB!")
-    except Exception as e:
-        print(e)
 
-    # Connect to the 'LeetcodeExtractor' database and the 'problem list' collection
-    try:
+        # Connect to the 'LeetcodeExtractor' database and the 'problem list' collection
         db = client["LeetcodeExtractor"]
         collection = db["problem list"]
         return collection

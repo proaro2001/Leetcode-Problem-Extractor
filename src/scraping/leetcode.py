@@ -18,11 +18,11 @@ from selenium.webdriver.support import expected_conditions as EC
 # helps to avoid adding to PATH
 from webdriver_manager.chrome import ChromeDriverManager
 
+# package that helps bypass the bot detection on websites
+import undetected_chromedriver as uc
+
 from utils.leetcode_extractor import extract_leetcode_info
-
 from fake_useragent import UserAgent
-
-from utils.humanBehavior import random_delay, human_scroll, get_page_height
 
 
 def extract_from_leetcode_page(pageNum):
@@ -35,7 +35,45 @@ def extract_from_leetcode_page(pageNum):
     Returns:
         list: A list of dictionaries containing the extracted information.
     """
+
+    # Link to the website we are searching
+    LINK = f"https://leetcode.com/problemset/?page={pageNum}"
+
+    # driver that gets the page
+    driver = get_uc_driver(LINK)
+
+    # Extract the rows from the page
+    rows = extractRows(driver)
+
+    # output data List object
+    output = [extract_leetcode_info(row.text) for row in rows]
+    assert output is not None, "Error in Leetcode: No data found"
+
+    # close the browser
+    driver.quit()
+    return output
+
+
+def get_uc_driver(LINK):
     # Set Chrome options
+    options = uc.ChromeOptions()
+    ua = UserAgent()
+    userAgent = ua.random
+    options.add_argument(f"user-agent={userAgent}")
+    options.add_argument("--headless")  # Run Chrome in headless mode
+    options.add_argument("--no-sandbox")  # Bypass OS security model
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument(
+        "--disable-blink-features=AutomationControlled"
+    )  # Avoid detection
+
+    # Initialize the undetected Chrome WebDriver
+    driver = uc.Chrome(options=options)
+
+    return driver
+
+
+def get_driver(LINK):
     options = Options()
     ua = UserAgent()
     userAgent = ua.random
@@ -48,22 +86,8 @@ def extract_from_leetcode_page(pageNum):
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
-    # Link to the website we are searching
-    LINK = f"https://leetcode.com/problemset/?page={pageNum}"
-
-    # open the browser and visit the website
     driver.get(LINK)
-
-    # Extract the rows from the page
-    rows = extractRows(driver)
-
-    # output data List object
-    output = [extract_leetcode_info(row.text) for row in rows]
-    assert output is not None, "Error in Leetcode: No data found"
-
-    # close the browser
-    driver.quit()
-    return output
+    return driver
 
 
 def extractRows(driver):
@@ -98,10 +122,6 @@ def extractRows(driver):
 
     # Indicator that the show tag button was clicked, can be removed for performance purposes
     print("Show tag button clicked")
-
-    # scroll to the bottom of the page
-    page_length = get_page_height(driver)
-    human_scroll(driver, page_length)
 
     # find the div tag by role called rowgroup
     WebDriverWait(driver, 10).until(
