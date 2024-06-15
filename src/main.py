@@ -6,22 +6,30 @@ import time
 
 
 def main():
+    start_time = time.time()
     # TODO: Figure out what the range should be
+    # TODO: Instead of keep calling for each page, try to press the next button
     last_page = 64
+    all_data = []
 
     db_collection = getCollection()
-    for i in range(1, last_page + 1):
-        print("=====================================")
-        print(f"Extracting data from LeetCode page {i}...")
-        page1 = extract_from_leetcode_page(i)
-        print("Inserting data into the database")
-        insert_problem_list_to_db(page1, collection=db_collection)
-        print(f"Data in page{i} inserted successfully!")
-        random_delay(0, 2, True)
+    try:
+        for i in range(1, last_page + 1):
+            print("=====================================")
+            print(f"Extracting data from LeetCode page {i}...")
+            data = extract_from_leetcode_page(i, headless=True)
+            all_data.extend(data)
+            print(f"Extracted {len(data)} problems from page {i}")
+            random_delay(1, 5, True)
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        print("Inserting data into the database...")
+        insert_problem_list_to_db(all_data, collection=db_collection)
+        print("Data inserted into the database successfully!")
+        end_time = time.time()
+        print(f"Time taken: {end_time - start_time} seconds")
 
 
 if __name__ == "__main__":
-    start_time = time.time()
     main()
-    end_time = time.time()
-    print(f"Time taken: {end_time - start_time} seconds")

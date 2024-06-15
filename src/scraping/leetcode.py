@@ -22,7 +22,7 @@ from utils.leetcode_extractor import extract_leetcode_info
 from fake_useragent import UserAgent
 
 
-def extract_from_leetcode_page(pageNum):
+def extract_from_leetcode_page(pageNum, headless=True):
     """
     Extracts Leetcode problems information from a specific page number.
 
@@ -37,7 +37,7 @@ def extract_from_leetcode_page(pageNum):
     LINK = f"https://leetcode.com/problemset/?page={pageNum}"
 
     # driver that gets the page
-    driver = get_driver(LINK, headless=True)
+    driver = get_driver(LINK, headless=headless)
 
     # Extract the rows from the page
     rows = extractRows(driver)
@@ -97,14 +97,14 @@ def extractRows(driver):
     ROWS_XPATH = '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]//div[@role="row"]'
 
     # find and click on the settings button
-    WebDriverWait(driver, 30).until(
+    WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, SETTINGS_BUTTON_XPATH))
     )
     settings_button = driver.find_element(By.XPATH, SETTINGS_BUTTON_XPATH)
     settings_button.click()
 
     # find and click on the show tag button
-    WebDriverWait(driver, 30).until(
+    WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
             (
                 By.XPATH,
