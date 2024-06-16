@@ -22,6 +22,12 @@ from utils.humanBehavior import random_delay
 from utils.leetcode_extractor import extract_leetcode_info
 from fake_useragent import UserAgent
 
+# # Bright Data
+# from selenium.webdriver import Remote, ChromeOptions
+# from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection
+# import os
+# from dotenv import load_dotenv
+
 
 def extract_from_leetcode_page(pageNum, headless=True):
     """
@@ -39,6 +45,7 @@ def extract_from_leetcode_page(pageNum, headless=True):
 
     # driver that gets the page
     driver = get_driver(LINK, headless=headless)
+    # driver = get_BD_driver(LINK, headless=headless)
 
     # Extract the rows from the page
     rows = extract_rows(driver)
@@ -52,6 +59,19 @@ def extract_from_leetcode_page(pageNum, headless=True):
     # close the browser
     driver.quit()
     return output
+
+
+# def get_BD_driver(LINK, headless=True):
+#     print("Connecting to Scraping Browser...")
+#     load_dotenv()
+#     SBR_WEBDRIVER = os.getenv("SBR_WEBDRIVER")
+#     sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, "goog", "chrome")
+#     chrome_options = ChromeOptions()
+
+#     with Remote(sbr_connection, options=chrome_options) as driver:
+#         print(f"Connecting to {LINK}...")
+#         driver.get(LINK)
+#         return driver
 
 
 def get_driver(LINK, headless=True):
@@ -100,7 +120,7 @@ def extract_rows(driver):
     ROWS_XPATH = '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]//div[@role="row"]'
 
     # find and click on the settings button
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.XPATH, SETTINGS_BUTTON_XPATH))
     )
     settings_button = driver.find_element(By.XPATH, SETTINGS_BUTTON_XPATH)
