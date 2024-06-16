@@ -2,6 +2,8 @@ import pymongo
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 from pymongo import InsertOne, UpdateOne
+from dotenv import load_dotenv
+import os
 
 
 def getCollection() -> pymongo.collection.Collection:
@@ -12,7 +14,8 @@ def getCollection() -> pymongo.collection.Collection:
     Returns:
         pymongo.collection.Collection: The 'problem list' collection object.
     """
-    uri = "mongodb+srv://Admin:WMggmanEJgUxzBgZ@leetcodeextractorcluste.ujs631j.mongodb.net/?retryWrites=true&w=majority&appName=LeetcodeExtractorCluster"
+    load_dotenv()
+    uri = os.getenv("MONGODB_URI")
     client = MongoClient(uri)
     # Send a ping to confirm a successful connection
     try:
