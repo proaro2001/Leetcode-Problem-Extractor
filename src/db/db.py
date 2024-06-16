@@ -2,7 +2,8 @@ import pymongo
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 from pymongo import InsertOne, UpdateOne
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv # this is for local development
 import os
 
 
@@ -14,7 +15,7 @@ def getCollection() -> pymongo.collection.Collection:
     Returns:
         pymongo.collection.Collection: The 'problem list' collection object.
     """
-    load_dotenv()
+    # load_dotenv() # this is for local development
     uri = os.getenv("MONGODB_URI")
     client = MongoClient(uri)
     # Send a ping to confirm a successful connection
