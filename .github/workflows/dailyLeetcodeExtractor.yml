@@ -30,4 +30,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run LeetCode Extractor
+        env:
+          DB_URI: ${{ secrets.DB_URI }}
         run: python3 src/main.py
