@@ -18,6 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # helps to avoid adding to PATH
 from webdriver_manager.chrome import ChromeDriverManager
 
+from utils.humanBehavior import random_delay
 from utils.leetcode_extractor import extract_leetcode_info
 from fake_useragent import UserAgent
 
@@ -40,12 +41,14 @@ def extract_from_leetcode_page(pageNum, headless=True):
     driver = get_driver(LINK, headless=headless)
 
     # Extract the rows from the page
-    rows = extractRows(driver)
+    rows = extract_rows(driver)
 
     # output data List object
     output = [extract_leetcode_info(row.text) for row in rows]
     assert output is not None, "Error in Leetcode: No data found"
 
+    # wait for a random time before closing the browser
+    random_delay(2, 5, True)
     # close the browser
     driver.quit()
     return output
@@ -79,7 +82,7 @@ def get_driver(LINK, headless=True):
     return driver
 
 
-def extractRows(driver):
+def extract_rows(driver):
     """
     Extracts rows from a web page using the provided Selenium WebDriver.
 

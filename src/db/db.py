@@ -43,19 +43,6 @@ def insert_problem_list_to_db(problem_list, collection):
     Raises:
         ValueError: If the problem_list is empty or None.
     """
-    # if (problem_list == None) or (len(problem_list) == 0):
-    #     raise ValueError("problem_list is empty or None")
-    # insertCount = 0
-    # updateCount = 0
-    # for problem in problem_list:
-    #     if collection.find_one({"_id": problem["_id"]}) is None:
-    #         collection.InsertOne(problem)
-    #         insertCount += 1
-    #     else:
-    #         # update the problem if it already exists
-    #         collection.update_one({"_id": problem["_id"]}, {"$set": problem})
-    #         updateCount += 1
-    # return {"inserted": insertCount, "updated": updateCount}
 
     if not problem_list:
         raise ValueError("problem_list is empty or None")
@@ -66,9 +53,10 @@ def insert_problem_list_to_db(problem_list, collection):
         if collection.find_one({"_id": problem["_id"]}) is None:
             # Add InsertOne operation
             operations.append(InsertOne(problem))
-        else:
+        elif collection.find_one({"_id": problem["_id"]}) != problem:
             # Add UpdateOne operation
             operations.append(UpdateOne({"_id": problem["_id"]}, {"$set": problem}))
+        # If the problem is already in the collection and nothing changed, do nothing
 
     if operations:
         result = collection.bulk_write(operations)
