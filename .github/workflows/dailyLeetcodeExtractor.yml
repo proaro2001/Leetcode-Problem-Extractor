@@ -31,5 +31,5 @@ jobs:
 
       - name: Run LeetCode Extractor
         env:
-          MONGODB_URI: ${{ secrets.DB_URI }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: python3 src/main.py
