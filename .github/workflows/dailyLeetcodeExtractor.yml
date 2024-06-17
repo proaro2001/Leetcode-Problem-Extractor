@@ -12,6 +12,7 @@ on:
 jobs:
   run-extractor:
     runs-on: ubuntu-latest
+    timeout-minutes: 15  # Set the timeout to 15 minutes
 
     steps:
       - name: Checkout repository # Checks-out the repository under $GITHUB_WORKSPACE, so your job can access it
