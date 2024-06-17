@@ -12,7 +12,7 @@ From the input text, we are extracting the _id, title, tags, acceptance rate, an
 """
 
 
-def extract_leetcode_info(problem_string):
+def parse_leetcode_info(problem_string):
     """
     Extracts relevant information from a LeetCode problem string.
 

@@ -29,6 +29,8 @@ Please don't use it for any other purpose.
     - Optimized database insertion process by using **batch inserts** with InsertOne and bulk_write, and by **establishing a single database connection**, significantly improving efficiency and performance for handling large datasets.
     - Encountered the **CAPTCHA** issue and attempted to solve it with fake human Behavior but failed.
     - Testing runs to the 35 page and failed, Leetcode returned a 502.
+- 2024/06/16
+    - Changed my implementation logic of scraping by using Queue ot avoid interrupt by cloudfare. 
 
 ## Tech Stack used in this project
 

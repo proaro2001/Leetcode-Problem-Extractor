@@ -1,32 +1,16 @@
 import time
 
-# import the keys module
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-
 # to search for things using specific parameters
 from selenium.webdriver.common.by import By
-
-# to use the enter key like Enter, ESC, etc.
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
 
 # wait for the page to load
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# helps to avoid adding to PATH
-from webdriver_manager.chrome import ChromeDriverManager
-
 from utils.humanBehavior import random_delay
-from utils.leetcode_extractor import extract_leetcode_info
-from fake_useragent import UserAgent
+from utils.leetcode_parser import parse_leetcode_info
 
-# # Bright Data
-# from selenium.webdriver import Remote, ChromeOptions
-# from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection
-# import os
-# from dotenv import load_dotenv
+from scraping.driver import get_driver, get_BD_driver, get_undetected_driver
 
 
 def extract_from_leetcode_page(pageNum, headless=True):
@@ -46,12 +30,13 @@ def extract_from_leetcode_page(pageNum, headless=True):
     # driver that gets the page
     driver = get_driver(LINK, headless=headless)
     # driver = get_BD_driver(LINK, headless=headless)
+    # driver = get_undetected_driver(LINK, headless=headless)
 
     # Extract the rows from the page
     rows = extract_rows(driver)
 
     # output data List object
-    output = [extract_leetcode_info(row.text) for row in rows]
+    output = [parse_leetcode_info(row.text) for row in rows]
     assert output is not None, "Error in Leetcode: No data found"
 
     # wait for a random time before closing the browser
@@ -59,47 +44,6 @@ def extract_from_leetcode_page(pageNum, headless=True):
     # close the browser
     driver.quit()
     return output
-
-
-# def get_BD_driver(LINK, headless=True):
-#     print("Connecting to Scraping Browser...")
-#     load_dotenv()
-#     SBR_WEBDRIVER = os.getenv("SBR_WEBDRIVER")
-#     sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, "goog", "chrome")
-#     chrome_options = ChromeOptions()
-
-#     with Remote(sbr_connection, options=chrome_options) as driver:
-#         print(f"Connecting to {LINK}...")
-#         driver.get(LINK)
-#         return driver
-
-
-def get_driver(LINK, headless=True):
-    """
-    Initializes and returns a Chrome WebDriver instance with the specified options.
-
-    Parameters:
-        LINK (str): The URL to navigate to after initializing the driver.
-        headless (bool): Whether to run Chrome in headless mode. Defaults to True.
-
-    Returns:
-        WebDriver: The initialized Chrome WebDriver instance.
-    """
-    options = Options()
-    ua = UserAgent()
-    userAgent = ua.random
-    if headless:
-        options.add_argument("--headless")  # Run Chrome in headless mode
-    options.add_argument("--no-sandbox")  # Bypass OS security model
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument(f"user-agent={userAgent}")
-
-    # Set up Chrome driver
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
-
-    driver.get(LINK)
-    return driver
 
 
 def extract_rows(driver):
@@ -113,6 +57,7 @@ def extract_rows(driver):
         A list of WebElement objects representing the extracted rows.
     """
     SETTINGS_BUTTON_XPATH = '//*[@id="headlessui-popover-button-:r7:"]'
+    SETTINGS_BUTTON_ID = "headlessui-popover-button-:r7:"
     SHOW_TAG_TOGGLE_XPATH = "/html/body/div[1]/div[1]/div[4]/div[2]/div[1]/div[4]/div[1]/div/div[5]/div[2]/div/div[1]"
     ROW_GROUP_XPATH = (
         '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]'
@@ -120,12 +65,16 @@ def extract_rows(driver):
     ROWS_XPATH = '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]//div[@role="row"]'
 
     # find and click on the settings button
-    WebDriverWait(driver, 30).until(
-        EC.presence_of_element_located((By.XPATH, SETTINGS_BUTTON_XPATH))
+    # WebDriverWait(driver, 10).until(
+    #     EC.presence_of_element_located((By.XPATH, SETTINGS_BUTTON_XPATH))
+    # )
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, SETTINGS_BUTTON_ID))
     )
-    settings_button = driver.find_element(By.XPATH, SETTINGS_BUTTON_XPATH)
+    # settings_button = driver.find_element(By.XPATH, SETTINGS_BUTTON_XPATH)
+    settings_button = driver.find_element(By.ID, SETTINGS_BUTTON_ID)
     settings_button.click()
-
+    print("Settings button clicked")
     # find and click on the show tag button
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
