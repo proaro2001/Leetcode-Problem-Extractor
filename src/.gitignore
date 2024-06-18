@@ -1,0 +1,10 @@
+.env
+# Compiled Python files
+__pycache__/
+*.pyc
+
+# macOS specific files
+**/.DS_Store
+
+# virtual environment
+leetcode-extractor-venv/
