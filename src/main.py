@@ -20,10 +20,13 @@ def main():
     for i in range(1, last_page + 1):
         queue.put(i)
 
-    scrape_with_queue(queue, db_collection, True)
+    scrape_with_queue(queue, db_collection, headless=True)
 
     print("All pages have been scraped!")
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     main()
+    end_time = time.time()
+    print(f"Total time taken: {end_time - start_time} seconds")

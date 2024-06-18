@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from utils.humanBehavior import random_delay
 from utils.leetcode_parser import parse_leetcode_info
 
-from scraping.driver import get_driver, get_BD_driver, get_undetected_driver
+from scraping.driver import get_driver
 
 
 def extract_from_leetcode_page(pageNum, headless=True):
@@ -17,8 +17,6 @@ def extract_from_leetcode_page(pageNum, headless=True):
 
     # driver that gets the page
     driver = get_driver(LINK, headless=headless)
-    # driver = get_BD_driver(LINK, headless=headless)
-    # driver = get_undetected_driver(LINK, headless=headless)
 
     # Extract the rows from the page
     rows = extract_rows(driver)

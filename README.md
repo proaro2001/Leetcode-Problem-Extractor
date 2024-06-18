@@ -34,6 +34,7 @@ Please don't use it for any other purpose.
 - 2024/06/17
     - Added Last Updated Time.
     - Tried to scrape the data with threading and reach the received a 429 code saying my limit exceeded.
+    - Ran the script with Surfshark VPN makes the success rate be stable around 58/64 which is 90.625%.
 
 ## Tech Stack used in this project
 

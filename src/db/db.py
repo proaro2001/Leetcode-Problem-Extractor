@@ -56,11 +56,12 @@ def insert_problem_list_to_db(problem_list, collection):
     update_count = 0
 
     for problem in problem_list:
-        if collection.find_one({"_id": problem["_id"]}) is None:
+        existing_problem = collection.find_one({"_id": problem["_id"]})
+        if existing_problem is None:
             # Add InsertOne operation
             operations.append(InsertOne(problem))
             insert_count += 1
-        elif collection.find_one({"_id": problem["_id"]}) != problem:
+        elif existing_problem != problem:
             # Add UpdateOne operation
             operations.append(UpdateOne({"_id": problem["_id"]}, {"$set": problem}))
             update_count += 1
