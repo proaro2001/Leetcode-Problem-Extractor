@@ -60,7 +60,7 @@ def parse_leetcode_info(problem_string):
         "tags": tags,
         "acceptance_rate": acceptance_rate,
         "difficulty": difficulty,
-        "last_updated_time": datetime.now(),
+        "last_updated_time": datetime.datetime.now(),
     }
 
 

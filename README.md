@@ -31,6 +31,9 @@ Please don't use it for any other purpose.
     - Testing runs to the 35 page and failed, Leetcode returned a 502.
 - 2024/06/16
     - Changed my implementation logic of scraping by using Queue ot avoid interrupt by cloudfare. 
+- 2024/06/17
+    - Added Last Updated Time.
+    - Tried to scrape the data with threading and reach the received a 429 code saying my limit exceeded.
 
 ## Tech Stack used in this project
 
