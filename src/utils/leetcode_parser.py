@@ -44,8 +44,8 @@ def parse_leetcode_info(problem_string):
     # Extract tags from the following lines until acceptance rate
     tags = []
     for line in lines[1:]:
-        if "%" in line:
-            # When a percentage is encountered, assume it is the acceptance rate line
+        if "%" in line or "N/A" in line:
+            # When a percentage or "N/A" is encountered, assume it is the acceptance rate line
             acceptance_rate = line.strip()
             break
         else:

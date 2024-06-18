@@ -1,11 +1,8 @@
-from scraping.leetcode import extract_from_leetcode_page
-from utils.leetcode_parser import print_leetcode_info
-from db.db import insert_problem_list_to_db, getCollection
-from scraping.scrapy_workflow import scrape_with_range, scrape_with_queue
+from db.db import getCollection
+from scraping.scrapy_workflow import scrape_with_queue
 import time
 
 from queue import Queue
-import threading as th
 
 
 def main():

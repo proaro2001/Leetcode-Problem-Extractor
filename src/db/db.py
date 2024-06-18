@@ -3,7 +3,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 from pymongo import InsertOne, UpdateOne
 
-# from dotenv import load_dotenv # this is for local development
+from dotenv import load_dotenv  # this is for local development
 import os
 
 
@@ -15,7 +15,7 @@ def getCollection() -> pymongo.collection.Collection:
     Returns:
         pymongo.collection.Collection: The 'problem list' collection object.
     """
-    # load_dotenv() # this is for local development
+    load_dotenv()  # this is for local development
     uri = os.getenv("MONGODB_URI")
     client = MongoClient(uri)
     # Send a ping to confirm a successful connection
@@ -27,6 +27,7 @@ def getCollection() -> pymongo.collection.Collection:
         # Connect to the 'LeetcodeExtractor' database and the 'problem list' collection
         db = client["LeetcodeExtractor"]
         collection = db["problem list"]
+        assert collection is not None, "Collection is None"
         return collection
     except ServerSelectionTimeoutError as e:
         print("Error: Could not connect to the MongoDB client")
@@ -69,6 +70,8 @@ def insert_problem_list_to_db(problem_list, collection):
 
     if operations:
         collection.bulk_write(operations)
+        print(f"Data inserted into the database successfully!")
         return {"inserted": insert_count, "updated": update_count}
     else:
+        print("No new data to insert into the database!")
         return {"inserted": 0, "updated": 0}
