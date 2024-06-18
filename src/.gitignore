@@ -4,7 +4,7 @@ __pycache__/
 *.pyc
 
 # macOS specific files
-.DS_Store
+**/.DS_Store
 
 # virtual environment
 leetcode-extractor-venv/
