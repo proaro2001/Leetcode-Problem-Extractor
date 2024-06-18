@@ -25,16 +25,6 @@ import undetected_chromedriver as uc
 
 
 def get_driver(LINK, headless=True):
-    """
-    Initializes and returns a Chrome WebDriver instance with the specified options.
-
-    Parameters:
-        LINK (str): The URL to navigate to after initializing the driver.
-        headless (bool): Whether to run Chrome in headless mode. Defaults to True.
-
-    Returns:
-        WebDriver: The initialized Chrome WebDriver instance.
-    """
     options = Options()
     ua = UserAgent()
     userAgent = ua.random

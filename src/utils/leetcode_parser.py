@@ -11,6 +11,8 @@ Medium
 From the input text, we are extracting the _id, title, tags, acceptance rate, and difficulty.
 """
 
+import datetime
+
 
 def parse_leetcode_info(problem_string):
     """
@@ -58,6 +60,7 @@ def parse_leetcode_info(problem_string):
         "tags": tags,
         "acceptance_rate": acceptance_rate,
         "difficulty": difficulty,
+        "last_updated_time": datetime.now(),
     }
 
 

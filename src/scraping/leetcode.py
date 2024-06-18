@@ -1,5 +1,3 @@
-import time
-
 # to search for things using specific parameters
 from selenium.webdriver.common.by import By
 
@@ -14,16 +12,6 @@ from scraping.driver import get_driver, get_BD_driver, get_undetected_driver
 
 
 def extract_from_leetcode_page(pageNum, headless=True):
-    """
-    Extracts Leetcode problems information from a specific page number.
-
-    Args:
-        pageNum (int): The page number to extract information from.
-
-    Returns:
-        list: A list of dictionaries containing the extracted information.
-    """
-
     # Link to the website we are searching
     LINK = f"https://leetcode.com/problemset/?page={pageNum}"
 
@@ -47,17 +35,7 @@ def extract_from_leetcode_page(pageNum, headless=True):
 
 
 def extract_rows(driver):
-    """
-    Extracts rows from a web page using the provided Selenium WebDriver.
-
-    Args:
-        driver: The Selenium WebDriver instance.
-
-    Returns:
-        A list of WebElement objects representing the extracted rows.
-    """
     SETTINGS_BUTTON_XPATH = '//*[@id="headlessui-popover-button-:r7:"]'
-    SETTINGS_BUTTON_ID = "headlessui-popover-button-:r7:"
     SHOW_TAG_TOGGLE_XPATH = "/html/body/div[1]/div[1]/div[4]/div[2]/div[1]/div[4]/div[1]/div/div[5]/div[2]/div/div[1]"
     ROW_GROUP_XPATH = (
         '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]'
@@ -65,16 +43,13 @@ def extract_rows(driver):
     ROWS_XPATH = '//*[@id="__next"]/div[1]/div[4]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]//div[@role="row"]'
 
     # find and click on the settings button
-    # WebDriverWait(driver, 10).until(
-    #     EC.presence_of_element_located((By.XPATH, SETTINGS_BUTTON_XPATH))
-    # )
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, SETTINGS_BUTTON_ID))
+        EC.presence_of_element_located((By.XPATH, SETTINGS_BUTTON_XPATH))
     )
-    # settings_button = driver.find_element(By.XPATH, SETTINGS_BUTTON_XPATH)
-    settings_button = driver.find_element(By.ID, SETTINGS_BUTTON_ID)
+    settings_button = driver.find_element(By.XPATH, SETTINGS_BUTTON_XPATH)
     settings_button.click()
     print("Settings button clicked")
+
     # find and click on the show tag button
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
@@ -114,6 +89,3 @@ def extract_rows(driver):
     )
 
     return rows
-
-
-# TODO: Create a function to extract the output data from the rows extracted by the previous function
